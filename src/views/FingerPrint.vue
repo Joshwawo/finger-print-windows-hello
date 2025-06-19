@@ -76,7 +76,7 @@ const message = ref('');
 const loggedInUser = ref(null);
 
 const api = axios.create({
-  baseURL: 'http://localhost:3006', // URL de tu backend NestJS
+  baseURL: 'https://dev-ventas.local:3007', // URL de tu backend NestJS
 });
 
 const handleRegister = async () => {

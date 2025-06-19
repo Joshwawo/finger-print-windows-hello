@@ -31,3 +31,4 @@ npm run dev
 ```sh
 npm run build
 ```
+ mkcert -key-file ./cert/servidor-key.pem -cert-file ./cert/servidor.pem 192.168.1.226 dev-ventas.local localhost 127.0.0.1
