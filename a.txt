@@ -1,0 +1,56 @@
+# ======================================================================
+# Archivo de Configuración de Nginx para Vue en un puerto de prueba
+# Adaptado para dev-ventas.local
+# ======================================================================
+
+# --- Bloque HTTP: Redirección del puerto 8008 al 8443 ---
+server {
+    listen 8008;
+
+    # ¡ACTUALIZADO! Se usa tu nueva IP y nombre de host.
+    server_name 192.168.1.226 dev-ventas.local;
+
+    # Redirige a la versión HTTPS especificando el puerto de destino.
+    return 301 https://$host:8443$request_uri;
+}
+
+
+# --- Bloque HTTPS: Servidor Principal en el puerto 8443 ---
+server {
+    # Escucha en el puerto HTTPS inusual.
+    listen 8443 ssl http2;
+
+    # ¡ACTUALIZADO! Se usa tu nueva IP y nombre de host.
+    server_name 192.168.1.226 dev-ventas.local;
+
+
+    # --- Configuración SSL ---
+    # Asegúrate de que estas rutas apunten a los certificados CORRECTOS para dev-ventas.local
+    ssl_certificate /var/www/dev-api-pop25-logs/cert/servidor.pem;      # <--- VERIFICA ESTA RUTA
+    ssl_certificate_key /var/www/dev-api-pop25-logs/cert/servidor-key.pem;  # <--- VERIFICA ESTA RUTA
+
+
+    # --- Configuración de Archivos Estáticos de Vue ---
+    # La ruta a la carpeta 'dist' de tu proyecto Vue.
+    root /var/www/dev-figer-print-windows-hello/dist; # <--- VERIFICA ESTA RUTA
+    index index.html;
+
+
+    # --- Proxy Inverso a la API de NestJS ---
+    location /api/ {
+        # La dirección de tu backend no cambia si corre en la misma máquina.
+        proxy_pass http://localhost:3007/;
+
+        # Cabeceras del proxy
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+
+    # --- Regla para Vue Router (SPA) ---
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

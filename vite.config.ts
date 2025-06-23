@@ -19,10 +19,10 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'cert/servidor-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'cert/servidor.pem'))
+      key: fs.readFileSync(path.resolve(__dirname, 'cert/servidor-sop25-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'cert/servidor-sop25.pem'))
     },
-    host: '0.0.0.0'
-
+    host: '0.0.0.0',
+    // proxy:
   }
 })

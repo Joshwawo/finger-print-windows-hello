@@ -74,7 +74,6 @@ import axios from 'axios';
 const username = ref('');
 const message = ref('');
 const loggedInUser = ref(null);
-
 const api = axios.create({
   baseURL: 'https://dev-ventas.local:3007', // URL de tu backend NestJS
 });
