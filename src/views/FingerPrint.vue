@@ -75,7 +75,8 @@ const username = ref('');
 const message = ref('');
 const loggedInUser = ref(null);
 const api = axios.create({
-  baseURL: 'https://dev-ventas.local:3007', // URL de tu backend NestJS
+  baseURL: 'https://sop25.local:3007', // URL de tu backend NestJS
+  // baseURL: 'http://localhost:3006', // URL de tu backend NestJS
 });
 
 const handleRegister = async () => {
